@@ -1,9 +1,16 @@
+import 'package:blood_pressure_tracker/models/reading.dart';
 import 'package:blood_pressure_tracker/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 import '../state/app_state.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(ReadingAdapter());
+  await Hive.openBox<Reading>('readings');
+
   runApp(
     ChangeNotifierProvider(
       create: (_) => AppSate(),
